@@ -14,6 +14,7 @@ namespace MohawkGame2D
         // Place your variables here:
         Player player = new Player();
         Bricks bricks = new Bricks();
+        Ball ball = new Ball();
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -33,6 +34,7 @@ namespace MohawkGame2D
             Window.ClearBackground(Color.White);
             player.PlayerHandler();
             bricks.BrickCreation();
+            ball.BallManager();
 
         }
     }

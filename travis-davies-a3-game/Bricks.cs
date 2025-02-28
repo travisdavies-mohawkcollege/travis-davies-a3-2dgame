@@ -1,6 +1,7 @@
 ﻿using MohawkGame2D;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -45,17 +46,18 @@ namespace travis_davies_a3_game
 
         int brickW = 50;
         int brickH = 20;
-        bool[] isDestroyed = new bool[168];
-        Vector2[] brickStorage = new Vector2[168];
+        bool[] isDestroyed = new bool[181];
+        Rectangle[] bricks = new Rectangle[181];
+        
         
 
         public void BrickCreation()
         {
-           for(int bricksPlaced = 0; bricksPlaced < 168; )
+           for(int bricksPlaced = 0; bricksPlaced < 180; )
                
             {
-                Draw.LineColor = Color.Black;
-                Draw.FillColor = Color.Gray;
+                Draw.LineColor = MohawkGame2D.Color.Black;
+                Draw.FillColor = MohawkGame2D.Color.Gray;
                 
                 for(int x = 0; x < 15; x++)
                 {
@@ -65,10 +67,14 @@ namespace travis_davies_a3_game
                         
                         
                         
-                        Draw.LineColor = Color.Black;
-                        Draw.FillColor = Color.Gray;
+                        Draw.LineColor = MohawkGame2D.Color.Black;
+                        Draw.FillColor = MohawkGame2D.Color.Gray;
                         Draw.Rectangle(brickX[x], brickY[y], brickW, brickH);
                         bricksPlaced++;
+                        isDestroyed[bricksPlaced] = false;
+                        bricks[bricksPlaced] = new Rectangle(brickX[x], brickY[y], brickW, brickH);
+
+                            
                     }
                 }
                 
