@@ -33,6 +33,7 @@ namespace MohawkGame2D
         {
             Window.ClearBackground(Color.White);
             player.PlayerHandler();
+            player.PlayerCollisionBounds();
             bricks.BrickCreation();
             ball.BallManager();
 
