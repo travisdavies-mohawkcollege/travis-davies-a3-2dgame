@@ -13,6 +13,7 @@ namespace MohawkGame2D
     {
         // Place your variables here:
         Player player = new Player();
+        Bricks bricks = new Bricks();
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -21,6 +22,7 @@ namespace MohawkGame2D
         {
             Window.SetSize(800, 600);
             Window.SetTitle("Brick Breaker Clone");
+            
         }
 
         /// <summary>
@@ -30,6 +32,8 @@ namespace MohawkGame2D
         {
             Window.ClearBackground(Color.White);
             player.PlayerHandler();
+            bricks.BrickCreation();
+
         }
     }
 
