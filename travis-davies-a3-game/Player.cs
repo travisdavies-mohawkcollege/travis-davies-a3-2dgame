@@ -40,7 +40,8 @@ namespace travis_davies_a3_game
             Draw.LineSize = 1;
             Draw.FillColor = MohawkGame2D.Color.Red;
             Draw.Rectangle(playerPosX, playerPosY, 60, 10);
-            
+
+            //PlayerCollisionBounds();
 
         }
 
@@ -50,10 +51,14 @@ namespace travis_davies_a3_game
             playerPosRect1.Y = playerPosY;
             playerSizeRect1.X = 60;
             playerSizeRect1.Y = 10;
+
+
             leftEdge = playerPosRect1.X;
             rightEdge = playerPosRect1.X + playerSizeRect1.X;
             topEdge = playerPosRect1.Y;
             bottomEdge = playerPosRect1.Y + playerSizeRect1.Y;
+            Console.WriteLine("Left: " + leftEdge + " Right: " + rightEdge + " Top: " + topEdge + " Bottom: " + bottomEdge);
+            
 
 
 

@@ -1,6 +1,7 @@
 ﻿using MohawkGame2D;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -10,34 +11,31 @@ namespace travis_davies_a3_game
 {
     public class Ball
     {
-        Vector2 ballPos = new Vector2(400, 400);
-        Vector2 velocity;
-        Vector2 speed = new Vector2(0, +35);
-        Player player = new Player();
-        float radius = 5;
+         public  Vector2 ballPos = new Vector2(400, 400);
+        public Vector2 velocity;
+        public Vector2 speed = new Vector2(0, +35);
+        public Player player = new Player();
+        public float radius = 5;
 
         public void BallManager()
         {
             Draw.LineSize = 1;
-            Draw.FillColor = Color.Red;
+            Draw.FillColor = MohawkGame2D.Color.Red;
             Draw.Circle(ballPos, radius);
 
             velocity = speed * Time.DeltaTime;
             ballPos += velocity;
 
+
+            //check for collision on window
             bool touchWall = ballPos.X < 0 || ballPos.X > 800;
             bool touchCeiling = ballPos.Y < 0;
-            bool touchTopPlayer = player.topEdge < ballPos.Y + radius;
-            bool touchBottomPlayer = player.bottomEdge > ballPos.Y - radius;
-            bool touchLeftPlayer = player.leftEdge < ballPos.X + radius;
-            bool touchRightPlayer = player.rightEdge > ballPos.X - radius;
+            bool touchFloor = ballPos.Y >= 600;
 
-            bool touchPlayer = touchBottomPlayer && touchLeftPlayer && touchRightPlayer && touchTopPlayer;
-            if (touchPlayer)
-            {
-                speed.Y = -speed.Y;
-                ballPos.Y = player.playerPosY - radius;
-            }
+            // Update player bounds before checking for collision
+           ///player.PlayerCollisionBounds();
+
+           
 
             if (touchWall)
             {
@@ -47,8 +45,12 @@ namespace travis_davies_a3_game
             {
                 speed.Y = -speed.Y;
             }
-
+            if (touchFloor)
+            {
+                speed.Y = -speed.Y;
+            }
         }
-            
     }
+
 }
+
