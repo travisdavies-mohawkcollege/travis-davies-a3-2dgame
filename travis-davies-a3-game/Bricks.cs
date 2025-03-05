@@ -11,7 +11,7 @@ namespace travis_davies_a3_game
 {
     class Bricks
     {
-        int[] brickX = [
+        public int[] brickX = [
                          25,
                          75,
                          125,
@@ -29,7 +29,7 @@ namespace travis_davies_a3_game
                          725
                        ];
 
-        int[] brickY = [
+       public  int[] brickY = [
                          60,
                          90,
                          110,
@@ -44,10 +44,10 @@ namespace travis_davies_a3_game
                          340
                         ];
 
-        int brickW = 50;
-        int brickH = 20;
-        bool[] isDestroyed = new bool[181];
-        Rectangle[] bricks = new Rectangle[181];
+        public int brickW = 50;
+        public int brickH = 20;
+        public bool[] isDestroyed = new bool[181];
+        public Rectangle[] bricks = new Rectangle[181];
         
         
 
@@ -63,16 +63,25 @@ namespace travis_davies_a3_game
                 {
                     for (int y = 0; y < 12; y++)
                     {
-                        
-                        
-                        
-                        
-                        Draw.LineColor = MohawkGame2D.Color.Black;
-                        Draw.FillColor = MohawkGame2D.Color.Gray;
-                        Draw.Rectangle(brickX[x], brickY[y], brickW, brickH);
+
                         bricksPlaced++;
-                        isDestroyed[bricksPlaced] = false;
-                        bricks[bricksPlaced] = new Rectangle(brickX[x], brickY[y], brickW, brickH);
+
+                        if (isDestroyed[bricksPlaced] == false) 
+                        {
+                            Draw.LineColor = MohawkGame2D.Color.Black;
+                            Draw.FillColor = MohawkGame2D.Color.Gray;
+                            Draw.Rectangle(brickX[x], brickY[y], brickW, brickH);
+                            bricks[bricksPlaced] = new Rectangle(brickX[x], brickY[y], brickW, brickH);
+                            
+                        }
+
+                        else
+                        {
+                            
+                        }
+
+
+                       
 
                             
                     }

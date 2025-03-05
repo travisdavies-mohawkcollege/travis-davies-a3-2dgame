@@ -23,7 +23,7 @@ namespace MohawkGame2D
         {
             Window.SetSize(800, 600);
             Window.SetTitle("Brick Breaker Clone");
-            
+
         }
 
         /// <summary>
@@ -36,6 +36,7 @@ namespace MohawkGame2D
             player.PlayerCollisionBounds();
             PlayerCollision();
             bricks.BrickCreation();
+            BrickCollision();
             ball.BallManager();
 
         }
@@ -55,6 +56,22 @@ namespace MohawkGame2D
                 ball.ballPos.Y = player.topEdge - ball.radius; // Correctly position ball on top of the player
             }
         }
-    }
 
+        public void BrickCollision()
+        {
+            for (int i = 0; i < bricks.bricks.Length; i++)
+            {
+                bool isWithinX = ball.ballPos.X + ball.radius > bricks.bricks[i].X && ball.ballPos.X - ball.radius < bricks.bricks[i].X + bricks.brickW;
+                bool isWithinY = ball.ballPos.Y + ball.radius > bricks.bricks[i].Y && ball.ballPos.Y - ball.radius < bricks.bricks[i].Y + bricks.brickH;
+                bool touchBrick = isWithinX && isWithinY;
+                if (touchBrick && !bricks.isDestroyed[i])
+                {
+                    Console.WriteLine("Touching Brick");
+                    ball.speed.Y = -ball.speed.Y;
+                    bricks.isDestroyed[i] = true;
+                }
+            }
+        }
+
+    }
 }
