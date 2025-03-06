@@ -13,7 +13,7 @@ namespace travis_davies_a3_game
     {
          public  Vector2 ballPos = new Vector2(400, 400);
         public Vector2 velocity;
-        public Vector2 speed = new Vector2(0, +35);
+        public Vector2 speed = new Vector2(0, +50);
         public Player player = new Player();
         public float radius = 5;
 

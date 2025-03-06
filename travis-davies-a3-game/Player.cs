@@ -57,7 +57,7 @@ namespace travis_davies_a3_game
             rightEdge = playerPosRect1.X + playerSizeRect1.X;
             topEdge = playerPosRect1.Y;
             bottomEdge = playerPosRect1.Y + playerSizeRect1.Y;
-            Console.WriteLine("Left: " + leftEdge + " Right: " + rightEdge + " Top: " + topEdge + " Bottom: " + bottomEdge);
+            //Console.WriteLine("Left: " + leftEdge + " Right: " + rightEdge + " Top: " + topEdge + " Bottom: " + bottomEdge);
             
 
 

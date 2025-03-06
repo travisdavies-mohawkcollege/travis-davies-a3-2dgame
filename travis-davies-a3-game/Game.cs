@@ -54,6 +54,19 @@ namespace MohawkGame2D
                 Console.WriteLine("Touching Player");
                 ball.speed.Y = -ball.speed.Y;
                 ball.ballPos.Y = player.topEdge - ball.radius; // Correctly position ball on top of the player
+                //check where on paddle ball is, change x accordingly
+                float playerCenter = player.leftEdge + player.rightEdge / 2;
+                float ballCenter = ball.ballPos.X;
+                float distance = ballCenter - playerCenter;
+                if (ball.ballPos.X < player.rightEdge && ball.ballPos.X > player.playerPosX + 30)
+                {
+                    ball.speed.X += 50;
+                }
+                if (ball.ballPos.X > player.leftEdge && ball.ballPos.X < player.playerPosX + 30)
+                {
+                    ball.speed.X -= 50;
+
+                }
             }
         }
 
@@ -63,11 +76,45 @@ namespace MohawkGame2D
             {
                 bool isWithinX = ball.ballPos.X + ball.radius > bricks.bricks[i].X && ball.ballPos.X - ball.radius < bricks.bricks[i].X + bricks.brickW;
                 bool isWithinY = ball.ballPos.Y + ball.radius > bricks.bricks[i].Y && ball.ballPos.Y - ball.radius < bricks.bricks[i].Y + bricks.brickH;
+                bool touchRight = ball.ballPos.X  > bricks.bricks[i].X + bricks.brickW;
+                bool touchLeft = ball.ballPos.X < bricks.bricks[i].X;
+                bool touchTop = ball.ballPos.Y - ball.radius < bricks.bricks[i].Y + bricks.brickH;
+                bool touchBottom = ball.ballPos.Y + ball.radius > bricks.bricks[i].Y;
                 bool touchBrick = isWithinX && isWithinY;
                 if (touchBrick && !bricks.isDestroyed[i])
                 {
-                    Console.WriteLine("Touching Brick");
-                    ball.speed.Y = -ball.speed.Y;
+                    Console.WriteLine("Touching Brick,   TouchLeft "+touchLeft + " TouchRight " +touchRight );
+                    if (touchRight)
+                    {
+                       ball.speed.X += 25;
+                        ball.speed.Y = -ball.speed.Y;
+                        if (ball.speed.X < 0)
+                        {
+                            ball.speed.X = -ball.speed.X;
+                        }
+
+                    }
+                    if (touchLeft)
+                    {
+                        ball.speed.X -= 25;
+                        ball.speed.Y = -ball.speed.Y;
+                        if (ball.speed.X > 0)
+                        {
+                            ball.speed.X = -ball.speed.X;
+                        }
+                    }
+                   else
+                    {
+                        ball.speed.Y = -ball.speed.Y;
+                    }
+
+
+
+
+
+
+
+
                     bricks.isDestroyed[i] = true;
                 }
             }
