@@ -16,6 +16,7 @@ namespace travis_davies_a3_game
         public Vector2 speed = new Vector2(0, +50);
         public Player player = new Player();
         public float radius = 5;
+        public float ballCount = 1;
 
         public void BallManager()
         {
@@ -47,8 +48,15 @@ namespace travis_davies_a3_game
             }
             if (touchFloor)
             {
-                speed.Y = -speed.Y;
+              
+                // speed.Y = -speed.Y;
             }
+        }
+
+        public void ResetBall()
+        {
+            ballPos.X = 400;
+            ballPos.Y = 400;
         }
     }
 

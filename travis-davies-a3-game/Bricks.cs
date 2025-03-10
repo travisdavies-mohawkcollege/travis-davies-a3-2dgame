@@ -93,5 +93,13 @@ namespace travis_davies_a3_game
             }
         }
 
+        public void Reset()
+        {
+            for( int resetBrick = 0; resetBrick < bricks.Length; resetBrick++)
+            {
+                isDestroyed[resetBrick] = false;
+            }
+        }
+
     }
 }

@@ -15,6 +15,7 @@ namespace MohawkGame2D
         Player player = new Player();
         Bricks bricks = new Bricks();
         Ball ball = new Ball();
+        int gameState = 0;
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -23,6 +24,7 @@ namespace MohawkGame2D
         {
             Window.SetSize(800, 600);
             Window.SetTitle("Brick Breaker Clone");
+            gameState = 0;
 
         }
 
@@ -32,12 +34,51 @@ namespace MohawkGame2D
         public void Update()
         {
             Window.ClearBackground(Color.White);
-            player.PlayerHandler();
-            player.PlayerCollisionBounds();
-            PlayerCollision();
-            bricks.BrickCreation();
-            BrickCollision();
-            ball.BallManager();
+            if (gameState == 0)
+            {
+                //Run start menu
+                player.PlayerHandler();
+                Draw.LineSize = 1;
+                Draw.FillColor = MohawkGame2D.Color.Red;
+                Draw.Circle(ball.ballPos, ball.radius);
+                StartScene();
+                if (Input.IsMouseButtonPressed(MouseInput.Left))
+                {
+                    gameState = 1;
+                }
+            }
+            if(gameState == 1)
+            {
+                //Run game
+                
+                player.PlayerHandler();
+                player.PlayerCollisionBounds();
+                PlayerCollision();
+                bricks.BrickCreation();
+                BrickCollision();
+                ball.BallManager();
+
+                if(ball.ballPos.Y >= 600)
+                {
+                    gameState = 2;
+                }
+
+            }
+            if(gameState == 2)
+            {
+
+                //Run gameover screen
+                GameOver();
+                bricks.Reset();
+                ball.ResetBall();
+                if (Input.IsMouseButtonPressed(MouseInput.Left))
+                {
+                    gameState = 0;
+                }
+            }
+            
+            
+            
 
         }
 
@@ -120,5 +161,22 @@ namespace MohawkGame2D
             }
         }
 
+
+        public void StartScene()
+        {
+            Text.Color = Color.Red;
+            Text.Size = 25;
+            Text.Draw("Left Click to Start!",250, 200 );
+        }
+
+
+        public void GameOver()
+        {
+            Text.Color = Color.Black;
+            Text.Size = 50;
+            Text.Draw("GAME", 350, 200 );
+            Text.Draw("OVER!", 350, 400 );
+        }
     }
+
 }
