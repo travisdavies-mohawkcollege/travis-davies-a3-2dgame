@@ -13,7 +13,7 @@ namespace travis_davies_a3_game
     {
         //Vector2 playerPos1 = new Vector2(400,540);
         // Vector2 playerPos2 = new Vector2(400, 560);
-        public float playerPosX;
+        public float playerPosX = 400;
         public float playerPosY = 550;
         public Vector2 playerPosRect1 = new Vector2();
         
@@ -35,8 +35,17 @@ namespace travis_davies_a3_game
 
         public void PlayerHandler()
         {
-            playerPosX = Input.GetMouseX() - 30;
-           
+            //playerPosX = Input.GetMouseX() - 30;
+           if(Input.IsKeyboardKeyDown(KeyboardInput.A))
+            {
+                playerPosX -= 5;
+            }
+            if (Input.IsKeyboardKeyDown(KeyboardInput.D))
+            {
+                playerPosX += 5;
+            }
+
+
             Draw.LineSize = 1;
             Draw.FillColor = MohawkGame2D.Color.Red;
             Draw.Rectangle(playerPosX, playerPosY, 60, 10);

@@ -12,7 +12,7 @@ namespace travis_davies_a3_game
     class Bricks
     {
         public int[] brickX = [
-                         25,
+                         
                          75,
                          125,
                          175,
@@ -26,13 +26,12 @@ namespace travis_davies_a3_game
                          575,
                          625,
                          675,
-                         725
+                         
                        ];
 
        public  int[] brickY = [
-                         60,
-                         90,
-                         110,
+                         
+                         
                          140,
                          160,
                          190,
@@ -41,27 +40,29 @@ namespace travis_davies_a3_game
                          260,
                          290,
                          310,
-                         340
+                         340,
+                         360
+
                         ];
 
         public int brickW = 50;
         public int brickH = 20;
-        public bool[] isDestroyed = new bool[181];
-        public Rectangle[] bricks = new Rectangle[181];
+        public bool[] isDestroyed = new bool[131];
+        public Rectangle[] bricks = new Rectangle[131];
         
         
 
         public void BrickCreation()
         {
-           for(int bricksPlaced = 0; bricksPlaced < 180; )
+           for(int bricksPlaced = 0; bricksPlaced < 130; )
                
             {
                 Draw.LineColor = MohawkGame2D.Color.Black;
                 Draw.FillColor = MohawkGame2D.Color.Gray;
                 
-                for(int x = 0; x < 15; x++)
+                for(int x = 0; x < 13; x++)
                 {
-                    for (int y = 0; y < 12; y++)
+                    for (int y = 0; y < 10; y++)
                     {
 
                         bricksPlaced++;

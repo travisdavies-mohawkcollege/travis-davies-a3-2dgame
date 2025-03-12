@@ -13,6 +13,7 @@ namespace MohawkGame2D
     {
         // Place your variables here:
         Player player = new Player();
+        Player2 player2 = new Player2();
         Bricks bricks = new Bricks();
         Ball ball = new Ball();
         int gameState = 0;
@@ -38,8 +39,9 @@ namespace MohawkGame2D
             {
                 //Run start menu
                 player.PlayerHandler();
+                player2.Player2Handler();
                 Draw.LineSize = 1;
-                Draw.FillColor = MohawkGame2D.Color.Red;
+                Draw.FillColor = MohawkGame2D.Color.Gray;
                 Draw.Circle(ball.ballPos, ball.radius);
                 StartScene();
                 if (Input.IsMouseButtonPressed(MouseInput.Left))
@@ -53,7 +55,10 @@ namespace MohawkGame2D
                 
                 player.PlayerHandler();
                 player.PlayerCollisionBounds();
+                player2.Player2Handler();
+                player2.Player2CollisionBounds();
                 PlayerCollision();
+                Player2Collision();
                 bricks.BrickCreation();
                 BrickCollision();
                 ball.BallManager();
@@ -104,6 +109,34 @@ namespace MohawkGame2D
                     ball.speed.X += 50;
                 }
                 if (ball.ballPos.X > player.leftEdge && ball.ballPos.X < player.playerPosX + 30)
+                {
+                    ball.speed.X -= 50;
+
+                }
+            }
+        }
+
+        public void Player2Collision()
+        {
+            bool isWithinX = ball.ballPos.X + ball.radius > player2.leftEdge2 && ball.ballPos.X - ball.radius < player2.rightEdge2;
+            bool isWithinY = ball.ballPos.Y + ball.radius > player2.topEdge2 && ball.ballPos.Y - ball.radius < player2.bottomEdge2;
+
+            bool touchPlayer = isWithinX && isWithinY;
+
+            if (touchPlayer)
+            {
+                Console.WriteLine("Touching Player");
+                ball.speed.Y = -ball.speed.Y;
+                ball.ballPos.Y = player2.bottomEdge2 - ball.radius; // Correctly position ball on bottom of the player2
+                //check where on paddle ball is, change x accordingly
+                float playerCenter = player2.leftEdge2 + player2.rightEdge2 / 2;
+                float ballCenter = ball.ballPos.X;
+                float distance = ballCenter - playerCenter;
+                if (ball.ballPos.X < player2.rightEdge2 && ball.ballPos.X > player2.player2PosX + 30)
+                {
+                    ball.speed.X += 50;
+                }
+                if (ball.ballPos.X > player2.leftEdge2 && ball.ballPos.X < player2.player2PosX + 30)
                 {
                     ball.speed.X -= 50;
 
