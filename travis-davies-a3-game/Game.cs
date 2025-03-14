@@ -24,6 +24,7 @@ namespace MohawkGame2D
         int[] powerUpDirection = new int[6];
         Vector2[] powerupPos = new Vector2[6];
         int activePowerups = 0;
+        int activeBalls = 0;
 
 
         /// <summary>
@@ -34,8 +35,9 @@ namespace MohawkGame2D
             Window.SetSize(800, 600);
             Window.SetTitle("Brick Breaker Clone");
             gameState = 0;
-            balls = new Ball[15];
-
+            balls = new Ball[1000];
+            activeBalls = 2;
+            
         }
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace MohawkGame2D
         /// </summary>
         public void Update()
         {
+
             Window.ClearBackground(Color.White);
             if (gameState == 0)
             {
@@ -50,9 +53,14 @@ namespace MohawkGame2D
                 player.PlayerHandler();
                 player2.Player2Handler();
                 Draw.LineSize = 1;
-                balls[0] = new Ball(new Vector2(400, 400));
-                Draw.FillColor = MohawkGame2D.Color.Gray;
+                balls[0] = new Ball(new Vector2(400, 500), ballState[0]);
+                balls[1] = new Ball(new Vector2(400, 100), ballState[1]);
+                Draw.FillColor = MohawkGame2D.Color.Yellow;
                 Draw.Circle(balls[0].ballPos, balls[0].radius);
+                Draw.FillColor = MohawkGame2D.Color.Red;
+                Draw.Circle(balls[1].ballPos, balls[1].radius);
+                ballState[0] = 1;
+                ballState[1] = 2;
                 StartScene();
                 if (Input.IsMouseButtonPressed(MouseInput.Left))
                 {
@@ -65,49 +73,104 @@ namespace MohawkGame2D
 
                 player.PlayerHandler();
                 player.PlayerCollisionBounds();
+                PlayerPowerupCollision();
                 player2.Player2Handler();
                 player2.Player2CollisionBounds();
+                Player2PowerupCollision();
                 PlayerCollision();
                 Player2Collision();
                 bricks.BrickCreation();
                 BrickCollision();
+                OutOfBounds();
+                //Handle each powerup
                 for (int p = 0; p < powerups.Length; p++)
                 {
-                   // Console.WriteLine("Powerup In Draw code");
-                     if (powerups[p] == null) break;
-                   // Console.WriteLine(activePowerups + "Powerup Active");
+                    // Console.WriteLine("Powerup In Draw code");
+                    if (powerups[p] == null) continue;
+                    // Console.WriteLine(activePowerups + "Powerup Active");
                     powerups[p].DrawPowerup();
                 }
+                //Handle Each Ball
+                if (balls[0].ballPos.Y > 600)
+                {
+                    gameState = 2;
+                }
+                if (balls[1].ballPos.Y < 0)
+                {
+                    gameState = 2;
+                }
+                if (balls[0].ballPos.Y <= 0)
+                {
+                    balls[0].speed.Y = -balls[0].speed.Y;
+                }
+                if (balls[1].ballPos.Y >= 600)
+                {
+                    balls[1].speed.Y = -balls[1].speed.Y;
+                }
+
                 for (int i = 0; i < balls.Length; i++)
                 {
                     if (balls[i] == null) return;
                     if (ballState[i] == 0)
                     {
+
                         Draw.FillColor = MohawkGame2D.Color.Gray;
+                        if (i == 0)
+                        {
+                            Draw.FillColor = MohawkGame2D.Color.Yellow;
+
+                        }
+                        if (i == 1)
+                        {
+                            Draw.FillColor = MohawkGame2D.Color.Red;
+
+                        }
+
                         balls[i].BallManager();
                     }
                     if (ballState[i] == 1)
                     {
+
                         Draw.FillColor = MohawkGame2D.Color.Red;
+                        if (i == 0)
+                        {
+                            Draw.FillColor = MohawkGame2D.Color.Yellow;
+
+                        }
+                        if (i == 1)
+                        {
+                            Draw.FillColor = MohawkGame2D.Color.Red;
+
+                        }
+
                         balls[i].BallManager();
                     }
                     if (ballState[i] == 2)
                     {
                         Draw.FillColor = MohawkGame2D.Color.Blue;
+                        if (i == 0)
+                        {
+                            Draw.FillColor = MohawkGame2D.Color.Yellow;
+
+                        }
+                        if (i == 1)
+                        {
+                            Draw.FillColor = MohawkGame2D.Color.Red;
+
+                        }
+
                         balls[i].BallManager();
                     }
+
                 }
 
 
-                
 
 
 
 
-                if (balls[0].ballPos.Y >= 600)
-                {
-                    gameState = 2;
-                }
+
+
 
             }
             if (gameState == 2)
@@ -116,7 +179,7 @@ namespace MohawkGame2D
                 //Run gameover screen
                 GameOver();
                 bricks.Reset();
-                balls[0].ResetBall();
+                
                 if (Input.IsMouseButtonPressed(MouseInput.Left))
                 {
                     gameState = 0;
@@ -146,26 +209,67 @@ namespace MohawkGame2D
                 {
 
                     ballState[i] = 1;
-                    Console.WriteLine("Touching Player");
+                    //Console.WriteLine("Touching Player");
                     balls[i].speed.Y = -balls[i].speed.Y;
                     balls[i].ballPos.Y = player.topEdge - balls[i].radius; // Correctly position ball on top of the player
                                                                            //check where on paddle ball is, change x accordingly
                     float playerCenter = player.leftEdge + player.rightEdge / 2;
                     float ballCenter = balls[i].ballPos.X;
                     float distance = ballCenter - playerCenter;
-                    if (balls[i].ballPos.X < player.rightEdge && balls[i].ballPos.X > player.playerPosX + 30)
+                    if (balls[i].ballPos.X < player.rightEdge && balls[i].ballPos.X > player.playerPosX)
                     {
                         balls[i].speed.X += 50;
                     }
-                    if (balls[i].ballPos.X > player.leftEdge && balls[i].ballPos.X < player.playerPosX + 30)
+                    if (balls[i].ballPos.X > player.leftEdge && balls[i].ballPos.X < player.playerPosX)
                     {
                         balls[i].speed.X -= 50;
 
                     }
                 }
             }
+
+
         }
 
+        public void PlayerPowerupCollision()
+        {
+            for (int p1 = 0; p1 < activePowerups; p1++)
+            {
+                if (powerups[p1] == null) continue;
+                bool isWithinX = powerups[p1].powerupPosX > player.leftEdge && powerups[p1].powerupPosX < player.rightEdge;
+                bool isWithinY = powerups[p1].powerupPosY > player.topEdge && powerups[p1].powerupPosY < player.bottomEdge;
+
+
+                bool touchPlayer = isWithinX && isWithinY;
+
+                if (touchPlayer)
+                {
+                    powerups[p1] = null;
+                    activePowerups--;
+                    Console.WriteLine("Player 1 powerup get!");
+                    for (int b = 0; b < balls.Length; b++)
+                    {
+
+                        if (balls[b] == null) return;
+                        for (b = 0; b < balls.Length; b++)
+                        {
+                            if (balls[b] == null)
+                            {
+                                for (int c = 0; c < 4; c++)
+                                {
+                                    balls[b] = new Ball(balls[0].ballPos, 3);
+                                    ballState[b] = 1;
+                                    activeBalls++;
+                                    break;
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public void Player2Collision()
         {
             for (int i = 0; i < balls.Length; i++)
@@ -187,14 +291,55 @@ namespace MohawkGame2D
                     float playerCenter2 = player2.leftEdge2 + player2.rightEdge2 / 2;
                     float ballCenter = balls[i].ballPos.X;
                     float distance = ballCenter - playerCenter2;
-                    if (balls[i].ballPos.X < player2.rightEdge2 && balls[i].ballPos.X > player2.player2PosX + 30)
+                    if (balls[i].ballPos.X < player2.rightEdge2 && balls[i].ballPos.X > player2.player2PosX)
                     {
                         balls[i].speed.X += 50;
                     }
-                    if (balls[i].ballPos.X > player2.leftEdge2 && balls[i].ballPos.X < player2.player2PosX + 30)
+                    if (balls[i].ballPos.X > player2.leftEdge2 && balls[i].ballPos.X < player2.player2PosX)
                     {
                         balls[i].speed.X -= 50;
 
+                    }
+                }
+            }
+        }
+
+        public void Player2PowerupCollision()
+        {
+            for (int p1 = 0; p1 < activePowerups; p1++)
+            {
+                if (powerups[p1] == null) continue;
+                bool isWithinX = powerups[p1].powerupPosX > player2.leftEdge2 && powerups[p1].powerupPosX < player2.rightEdge2;
+                bool isWithinY = powerups[p1].powerupPosY > player2.topEdge2 && powerups[p1].powerupPosY < player2.bottomEdge2;
+
+
+                bool touchPlayer = isWithinX && isWithinY;
+
+                if (touchPlayer)
+                {
+                    powerups[p1] = null;
+                    activePowerups--;
+                    Console.WriteLine("Player 2 powerup get!");
+                    for (int b = 0; b < balls.Length; b++)
+                    {
+
+                        if (balls[b] == null) return;
+                        for (b = 0; b < balls.Length; b++)
+                        {
+                            if (balls[b] == null)
+                            {
+                                for (int c = 0; c < 4; c++)
+                                {
+                                    balls[b] = new Ball(balls[1].ballPos, 4);
+                                    ballState[b] = 2;
+                                    activeBalls++;
+                                    break;
+
+                                }
+
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -219,8 +364,8 @@ namespace MohawkGame2D
                     {
                         powerup.doSpawnPowerup(powerup.doSpawn);
                         bool powerupSpawn = powerup.doSpawnPowerup(powerup.doSpawn);
-                        Console.WriteLine("Game Class Powerup Check " + powerup.doSpawn);
-                        Console.WriteLine("Game Class Powerup Check 2" + powerupSpawn);
+                        // Console.WriteLine("Game Class Powerup Check " + powerup.doSpawn);
+                        // Console.WriteLine("Game Class Powerup Check 2" + powerupSpawn);
                         if (powerupSpawn)
                         {
                             for (int ps = 0; ps < powerups.Length; ps++)
@@ -233,7 +378,7 @@ namespace MohawkGame2D
                                     powerups[ps].InitializePowerup(powerupPos[ps], powerUpDirection[ps]);
                                     powerup.doSpawn = false;
                                     activePowerups++;
-                                    Console.WriteLine("Powerup Position Logged, Active Powerups " + activePowerups);
+                                    //  Console.WriteLine("Powerup Position Logged, Active Powerups " + activePowerups);
 
                                     break;
                                 }
@@ -292,6 +437,27 @@ namespace MohawkGame2D
             Text.Draw("GAME", 350, 200);
             Text.Draw("OVER!", 350, 400);
         }
-    }
 
+        public void OutOfBounds()
+        {
+            bool[] deactivated = new bool[balls.Length];
+            for (int i = 0; i < balls.Length; i++)
+            {
+                if (balls[i] == null) continue;
+                if (balls[i].ballPos.Y > 600 || balls[i].ballPos.Y < 0)
+                {
+                    if (deactivated[i] == false)
+                    {
+                        activeBalls--;
+
+                    }
+                    deactivated[i] = true;
+                }
+            }
+
+        }
+
+       
+
+    }
 }

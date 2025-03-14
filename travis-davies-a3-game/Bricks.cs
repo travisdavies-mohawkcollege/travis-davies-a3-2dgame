@@ -32,7 +32,7 @@ namespace travis_davies_a3_game
        public  int[] brickY = [
                          
                          
-                         140,
+                         
                          160,
                          190,
                          210,
@@ -41,9 +41,12 @@ namespace travis_davies_a3_game
                          290,
                          310,
                          340,
-                         360
+                         360,
+                         390
 
                         ];
+
+
 
         public int brickW = 50;
         public int brickH = 20;

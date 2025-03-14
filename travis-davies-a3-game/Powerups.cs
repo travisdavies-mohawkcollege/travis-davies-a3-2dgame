@@ -44,6 +44,9 @@ namespace travis_davies_a3_game
 
         public void DrawPowerup()
         {
+           
+            
+            
             Draw.FillColor = MohawkGame2D.Color.Green;
             Draw.Circle(powerupPosX, powerupPosY, 5);
             
@@ -56,5 +59,7 @@ namespace travis_davies_a3_game
                 powerupPosY -= 25 * Time.DeltaTime;
             }
         }
+
+        
     }
 }
