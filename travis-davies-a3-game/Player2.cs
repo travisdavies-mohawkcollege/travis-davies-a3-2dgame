@@ -47,6 +47,18 @@ namespace travis_davies_a3_game
 
             //PlayerCollisionBounds();
 
+            if (player2PosX < 0)
+            {
+                player2PosX = 0;
+            }
+            if (player2PosX > 740)
+            {
+                player2PosX = 740;
+            }
+            
+                
+            
+
         }
 
         public void Player2CollisionBounds()

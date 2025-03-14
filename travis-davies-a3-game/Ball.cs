@@ -13,15 +13,22 @@ namespace travis_davies_a3_game
     {
          public  Vector2 ballPos = new Vector2(400, 400);
         public Vector2 velocity;
-        public Vector2 speed = new Vector2(0, +50);
+        public Vector2 speed = new Vector2(0, +100);
         public Player player = new Player();
         public float radius = 5;
         public float ballCount = 1;
 
+        public Ball(Vector2 pos)
+        {
+            ballPos = pos;
+        }
+        
+        
         public void BallManager()
         {
+            
             Draw.LineSize = 1;
-            Draw.FillColor = MohawkGame2D.Color.Red;
+           //Draw.FillColor = MohawkGame2D.Color.Red;
             Draw.Circle(ballPos, radius);
 
             velocity = speed * Time.DeltaTime;

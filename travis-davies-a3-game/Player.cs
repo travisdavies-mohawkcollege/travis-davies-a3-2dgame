@@ -50,6 +50,16 @@ namespace travis_davies_a3_game
             Draw.FillColor = MohawkGame2D.Color.Red;
             Draw.Rectangle(playerPosX, playerPosY, 60, 10);
 
+            if(playerPosX < 0)
+            {
+                playerPosX = 0;
+            }
+            if (playerPosX > 740)
+            {
+                playerPosX = 740;
+            }
+            
+
             //PlayerCollisionBounds();
 
         }
