@@ -34,7 +34,7 @@ namespace MohawkGame2D
             Window.SetTitle("Brick Breaker Clone");
             gameState = 0;
             balls = new Ball[15];
-            
+
         }
 
         /// <summary>
@@ -58,10 +58,10 @@ namespace MohawkGame2D
                     gameState = 1;
                 }
             }
-            if(gameState == 1)
+            if (gameState == 1)
             {
                 //Run game
-                
+
                 player.PlayerHandler();
                 player.PlayerCollisionBounds();
                 player2.Player2Handler();
@@ -70,7 +70,13 @@ namespace MohawkGame2D
                 Player2Collision();
                 bricks.BrickCreation();
                 BrickCollision();
-                
+                for (int p = 0; p < activePowerups; p++)
+                {
+                   // Console.WriteLine("Powerup In Draw code");
+                    // if (powerups[p] == null) return;
+                   // Console.WriteLine(activePowerups + "Powerup Active");
+                    powerups[p].DrawPowerup();
+                }
                 for (int i = 0; i < balls.Length; i++)
                 {
                     if (balls[i] == null) return;
@@ -90,16 +96,12 @@ namespace MohawkGame2D
                         balls[i].BallManager();
                     }
                 }
-                if(activePowerups > 0)
-                {
-                    for (int p = 0; p < powerups.Length; p++)
-                    {
-                        if (powerups[p] == null) return;
-                        powerups[p].DrawPowerup();
-                    }
-                }
+
+
                 
-                
+
+
+
 
                 if (balls[0].ballPos.Y >= 600)
                 {
@@ -107,7 +109,7 @@ namespace MohawkGame2D
                 }
 
             }
-            if(gameState == 2)
+            if (gameState == 2)
             {
 
                 //Run gameover screen
@@ -119,9 +121,9 @@ namespace MohawkGame2D
                     gameState = 0;
                 }
             }
-            
-            
-            
+
+
+
 
         }
 
@@ -131,9 +133,9 @@ namespace MohawkGame2D
             for (int i = 0; i < balls.Length; i++)
             {
                 if (balls[i] == null) return;
-                
-                
-                
+
+
+
                 bool isWithinX = balls[i].ballPos.X + balls[i].radius > player.leftEdge && balls[i].ballPos.X - balls[i].radius < player.rightEdge;
                 bool isWithinY = balls[i].ballPos.Y + balls[i].radius > player.topEdge && balls[i].ballPos.Y - balls[i].radius < player.bottomEdge;
 
@@ -146,7 +148,7 @@ namespace MohawkGame2D
                     Console.WriteLine("Touching Player");
                     balls[i].speed.Y = -balls[i].speed.Y;
                     balls[i].ballPos.Y = player.topEdge - balls[i].radius; // Correctly position ball on top of the player
-                                                                   //check where on paddle ball is, change x accordingly
+                                                                           //check where on paddle ball is, change x accordingly
                     float playerCenter = player.leftEdge + player.rightEdge / 2;
                     float ballCenter = balls[i].ballPos.X;
                     float distance = ballCenter - playerCenter;
@@ -180,7 +182,7 @@ namespace MohawkGame2D
                     Console.WriteLine("Touching Player");
                     balls[i].speed.Y = -balls[i].speed.Y;
                     balls[i].ballPos.Y = player2.bottomEdge2 + balls[i].radius; // Correctly position ball on top of the player
-                                                                           //check where on paddle ball is, change x accordingly
+                    //check where on paddle ball is, change x accordingly
                     float playerCenter2 = player2.leftEdge2 + player2.rightEdge2 / 2;
                     float ballCenter = balls[i].ballPos.X;
                     float distance = ballCenter - playerCenter2;
@@ -215,16 +217,21 @@ namespace MohawkGame2D
                     if (touchBrick && !bricks.isDestroyed[b])
                     {
                         powerup.doSpawnPowerup(powerup.doSpawn);
-                        if (powerup.doSpawn)
+                        bool powerupSpawn = powerup.doSpawnPowerup(powerup.doSpawn);
+                        Console.WriteLine("Game Class Powerup Check " + powerup.doSpawn);
+                        Console.WriteLine("Game Class Powerup Check 2" + powerupSpawn);
+                        if (powerupSpawn)
                         {
-                            for (int p = 0; p < powerups.Length; p++)
+                            for (int ps = 0; ps < powerups.Length; ps++)
                             {
-                                if (powerups[p] == null)
+                                if (powerups[ps] == null)
                                 {
-                                    powerups[p] = new Powerups();
-                                    powerupPos[p] = new Vector2(bricks.bricks[b].X, bricks.bricks[b].Y);
-                                    powerups[p].InitializePowerup(powerupPos[p]);
+                                    powerups[ps] = new Powerups();
+                                    powerupPos[ps] = new Vector2(bricks.bricks[b].X, bricks.bricks[b].Y);
+                                    powerups[ps].InitializePowerup(powerupPos[ps]);
                                     powerup.doSpawn = false;
+                                    activePowerups++;
+                                    Console.WriteLine("Powerup Position Logged, Active Powerups " + activePowerups);
 
                                     break;
                                 }
@@ -259,8 +266,8 @@ namespace MohawkGame2D
 
                         bricks.isDestroyed[b] = true;
 
-                        //spawn powerup
-                        
+
+
 
                     }
                 }
@@ -272,7 +279,7 @@ namespace MohawkGame2D
         {
             Text.Color = Color.Red;
             Text.Size = 25;
-            Text.Draw("Left Click to Start!",250, 200 );
+            Text.Draw("Left Click to Start!", 250, 200);
         }
 
 
@@ -280,8 +287,8 @@ namespace MohawkGame2D
         {
             Text.Color = Color.Black;
             Text.Size = 50;
-            Text.Draw("GAME", 350, 200 );
-            Text.Draw("OVER!", 350, 400 );
+            Text.Draw("GAME", 350, 200);
+            Text.Draw("OVER!", 350, 400);
         }
     }
 

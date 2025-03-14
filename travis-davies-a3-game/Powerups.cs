@@ -33,9 +33,11 @@ namespace travis_davies_a3_game
         public void InitializePowerup(Vector2 position )
         {
             
-            powerupPosX = position.X;
-            powerupPosY = position.Y;
+            powerupPosX = position.X +25;
+            powerupPosY = position.Y +10;
             
+            Console.WriteLine("Powerup X: " + powerupPosX + " Powerup Y: " + powerupPosY);
+
 
 
         }
