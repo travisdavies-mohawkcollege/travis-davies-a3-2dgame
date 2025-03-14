@@ -21,6 +21,7 @@ namespace MohawkGame2D
         Ball[] balls;
         int gameState = 0;
         int[] ballState = new int[15];
+        int[] powerUpDirection = new int[6];
         Vector2[] powerupPos = new Vector2[6];
         int activePowerups = 0;
 
@@ -70,10 +71,10 @@ namespace MohawkGame2D
                 Player2Collision();
                 bricks.BrickCreation();
                 BrickCollision();
-                for (int p = 0; p < activePowerups; p++)
+                for (int p = 0; p < powerups.Length; p++)
                 {
                    // Console.WriteLine("Powerup In Draw code");
-                    // if (powerups[p] == null) return;
+                     if (powerups[p] == null) break;
                    // Console.WriteLine(activePowerups + "Powerup Active");
                     powerups[p].DrawPowerup();
                 }
@@ -228,7 +229,8 @@ namespace MohawkGame2D
                                 {
                                     powerups[ps] = new Powerups();
                                     powerupPos[ps] = new Vector2(bricks.bricks[b].X, bricks.bricks[b].Y);
-                                    powerups[ps].InitializePowerup(powerupPos[ps]);
+                                    powerUpDirection[ps] = ballState[i];
+                                    powerups[ps].InitializePowerup(powerupPos[ps], powerUpDirection[ps]);
                                     powerup.doSpawn = false;
                                     activePowerups++;
                                     Console.WriteLine("Powerup Position Logged, Active Powerups " + activePowerups);

@@ -30,12 +30,12 @@ namespace travis_davies_a3_game
             return doSpawn;
         }
 
-        public void InitializePowerup(Vector2 position )
+        public void InitializePowerup(Vector2 position, int direction )
         {
             
             powerupPosX = position.X +25;
             powerupPosY = position.Y +10;
-            
+            powerupDirection = direction;
             Console.WriteLine("Powerup X: " + powerupPosX + " Powerup Y: " + powerupPosY);
 
 
@@ -46,13 +46,14 @@ namespace travis_davies_a3_game
         {
             Draw.FillColor = MohawkGame2D.Color.Green;
             Draw.Circle(powerupPosX, powerupPosY, 5);
+            
             if (powerupDirection == 1)
             {
-                powerupPosY += 25;
+                powerupPosY += 25 * Time.DeltaTime;
             }
             if (powerupDirection == 2)
             {
-                powerupPosY -= 25;
+                powerupPosY -= 25 * Time.DeltaTime;
             }
         }
     }
