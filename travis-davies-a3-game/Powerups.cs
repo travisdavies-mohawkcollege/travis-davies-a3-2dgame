@@ -52,11 +52,11 @@ namespace travis_davies_a3_game
             
             if (powerupDirection == 1)
             {
-                powerupPosY += 25 * Time.DeltaTime;
+                powerupPosY += 50 * Time.DeltaTime;
             }
             if (powerupDirection == 2)
             {
-                powerupPosY -= 25 * Time.DeltaTime;
+                powerupPosY -= 50 * Time.DeltaTime;
             }
         }
 

@@ -57,8 +57,8 @@ namespace travis_davies_a3_game
 
 
             //check for collision on window
-            bool touchWall = ballPos.X < 0 || ballPos.X > 800;
-            bool touchCeiling = ballPos.Y < 0;
+            bool touchWall = ballPos.X  < 0 || ballPos.X  > 800;
+            bool touchCeiling = ballPos.Y  < 0;
             bool touchFloor = ballPos.Y >= 600;
 
             // Update player bounds before checking for collision
