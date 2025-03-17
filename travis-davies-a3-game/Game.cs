@@ -317,21 +317,19 @@ namespace MohawkGame2D
                     for (int b = 0; b < balls.Length; b++)
                     {
 
-                        //  if (balls[b] == null) return;
-                        // for (b = 0; b < balls.Length; b++)
-                        //  {
+                        
                         if (balls[b] == null)
                         {
-                            
+
                             balls[b] = new Ball(balls[0].ballPos, 3);
                             ballState[b] = 1;
                             activeBalls++;
-                                
-                            
+
+
 
                             break;
                         }
-                        //  }
+                        
                     }
                 }
             }
@@ -389,23 +387,20 @@ namespace MohawkGame2D
                     for (int b = 0; b < balls.Length; b++)
                     {
 
-                        //if (balls[b] == null) return;
-                        // for (b = 0; b < balls.Length; b++)
-                        //{
+                        
                         if (balls[b] == null)
                         {
-                            for (int c = 0; c < 4; c++)
-                            {
-                                balls[b] = new Ball(balls[1].ballPos, 4);
-                                ballState[b] = 2;
-                                activeBalls++;
+
+                            balls[b] = new Ball(balls[1].ballPos, 4);
+                            ballState[b] = 2;
+                            activeBalls++;
 
 
-                            }
+
 
                             break;
                         }
-                        //  }
+                        
                     }
                 }
             }
